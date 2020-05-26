@@ -56,7 +56,7 @@ https://www.borntowin.cn/product/corrector
 * transformer模型：全attention的结构代替了lstm用于解决sequence to sequence问题，语义特征提取效果更好
 * bert模型：中文fine-tuned模型，使用MASK特征纠正错字
 * conv_seq2seq模型：基于Facebook出品的fairseq，北京语言大学团队改进ConvS2S模型用于中文纠错，在NLPCC-2018的中文语法纠错比赛中，是唯一使用单模型并取得第三名的成绩
-
+* electra模型：斯坦福和谷歌联合提出的一种更具效率的预训练模型，学习文本上下文表示优于同等计算资源的BERT和XLNet
 
 ### 错误检测
 * 字粒度：语言模型困惑度（ppl）检测某字的似然概率值低于句子文本平均值，则判定该字是疑似错别字的概率大。
@@ -196,13 +196,13 @@ output:
 ('买iPhone差，要多少钱', [])   # "iPhone差"漏召，应该是"iphoneX"
 ('共同实际控制人萧华、霍荣铨、张启康', [['张旗康', '张启康', 14, 17]]) # "张启康"误杀，应该不用纠
 *****************************************************
-('买iphoneX，要多少钱', [['iphone差', 'iphoneX', 1, 8]])
+('买iPhoneX，要多少钱', [['iPhone差', 'iPhoneX', 1, 8]])
 ('共同实际控制人萧华、霍荣铨、张旗康', [])
 ```
 
 具体demo见[example/use_custom_confusion.py](./examples/use_custom_confusion.py)，其中`./my_custom_confusion.txt`的内容格式如下，以空格间隔：
 ```
-iphone差 iphoneX 100
+iPhone差 iPhoneX 100
 张旗康 张旗康
 ```
 > `set_custom_confusion_dict`方法的`path`参数为用户自定义混淆集文件路径。
@@ -338,7 +338,7 @@ pip install -r requirements-dev.txt
 本项目的初衷之一是比对、共享各种文本纠错方法，抛砖引玉的作用，如果对大家在文本纠错任务上有一点小小的启发就是我莫大的荣幸了。
 
 主要使用了多种深度模型应用于文本纠错任务，分别是前面`模型`小节介绍的`conv_seq2seq`、`seq2seq_attention`、
-`transformer`、`bert`，各模型方法内置于`pycorrector`文件夹下，有`README.md`详细指导，各模型可独立运行，相互之间无依赖。
+`transformer`、`bert`、`electra`，各模型方法内置于`pycorrector`文件夹下，有`README.md`详细指导，各模型可独立运行，相互之间无依赖。
 
 
 ### 使用方法
@@ -389,11 +389,15 @@ input: 由我起开始做 output: 由我开始做
 ```
 
 
+PS：
+1. 如果训练数据太少（不足万条），深度模型拟合不足，会出现预测结果全为<unk>的情况，解决方法：增大训练样本集，使用下方提供的纠错熟语料(nlpcc2018+hsk，130万对句子)测试。
+2. 深度模型训练耗时长，有GPU尽量用GPU，加速训练，节省时间。
+
 ## 自定义语言模型
 
 语言模型对于纠错步骤至关重要，当前默认使用的是从千兆中文文本训练的中文语言模型[zh_giga.no_cna_cmn.prune01244.klm(2.8G)](https://deepspeech.bj.bcebos.com/zh_lm/zh_giga.no_cna_cmn.prune01244.klm)。
 
-大家可以用中文维基（繁体转简体，pycorrector.utils下有此功能）等语料数据训练通用的语言模型，或者也可以用专业领域语料训练更专用的语言模型。更适用的语言模型，对于纠错效果会有比较好的提升。
+大家可以用中文维基（繁体转简体，pycorrector.utils.text_utils下有此功能）等语料数据训练通用的语言模型，或者也可以用专业领域语料训练更专用的语言模型。更适用的语言模型，对于纠错效果会有比较好的提升。
 
 
 1. kenlm语言模型训练工具的使用，请见博客：http://blog.csdn.net/mingzai624/article/details/79560063
@@ -420,9 +424,10 @@ input: 由我起开始做 output: 由我开始做
 - [x] 规则方法添加用户自定义纠错集，并将其纠错优先度调为最高
 - [x] seq2seq_attention 添加dropout，减少过拟合
 - [x] 在seq2seq模型框架上，新增Pointer-generator network、Beam search、Unknown words replacement、Coverage mechanism等特性
-- [x] 更新bert的fine-tuned使用wiki，适配transformers 2.2.1库
+- [x] 更新bert的fine-tuned使用wiki，适配transformers 2.10.0库
 - [x] 升级代码，兼容TensorFlow 2.0库
 - [x] 升级bert纠错逻辑，提升基于mask的纠错效果
+- [x] 新增基于electra模型的纠错逻辑，参数更小，预测更快
 
 ## 讨论群
 
@@ -432,8 +437,24 @@ PS: 由于微信群满100人了，扫码加不了。扫我微信二维码，或�
 
 <img src="./docs/git_image/wechat.jpeg" width="200" />
 
+## 引用
 
-## 参考
+如果你在研究中使用了pycorrector，请按如下格式引用：
+
+```latex
+@software{pycorrector,
+  author = {Xu Ming},
+  title = {{pycorrector: Text Correction Tool}},
+  year = {2020},
+  url = {https://github.com/shibing624/pycorrector},
+}
+```
+
+## License
+
+pycorrector 的授权协议为 **Apache License 2.0**，可免费用做商业用途。请在产品说明中附加pycorrector的链接和授权协议。pycorrector受版权法保护，侵权必究。
+
+## References
 
 * [基于文法模型的中文纠错系统](https://blog.csdn.net/mingzai624/article/details/82390382)
 * [Norvig’s spelling corrector](http://norvig.com/spell-correct.html)
@@ -445,7 +466,7 @@ PS: 由于微信群满100人了，扫码加不了。扫我微信二维码，或�
 * [Neural Abstractive Text Summarization with Sequence-to-Sequence Models[Tian Shi, 2018]](https://arxiv.org/abs/1812.02303)
 * [基于深度学习的中文文本自动校对研究与实现[杨宗霖, 2019]](https://github.com/shibing624/pycorrector/blob/master/docs/基于深度学习的中文文本自动校对研究与实现.pdf)
 * [A Sequence to Sequence Learning for Chinese Grammatical Error Correction[Hongkai Ren, 2018]](https://link.springer.com/chapter/10.1007/978-3-319-99501-4_36)
-
+* [ELECTRA: Pre-training Text Encoders as Discriminators Rather Than Generators](https://openreview.net/pdf?id=r1xMH1BtvB)
 
 
 ----
@@ -511,7 +532,7 @@ going.
 ### Further Reading
 * [Roger Mitton has a survey article on spell checking.](http://www.dcs.bbk.ac.uk/~roger/spellchecking.html)
 
-# Reference
-1. [Norvig’s spelling corrector](http://norvig.com/spell-correct.html)
-2. [Norvig’s spelling corrector(java version)](http://raelcunha.com/spell-correct/)
+# References
+* [Norvig’s spelling corrector](http://norvig.com/spell-correct.html)
+* [Norvig’s spelling corrector(java version)](http://raelcunha.com/spell-correct/)
 

@@ -36,7 +36,6 @@ vocab_max_size = 6000
 arch = 'fconv'
 batch_size = 64
 max_len = 400
-# epochs = 50
 
 
 # (float, optional): temperature, where values >1.0 produce more uniform samples

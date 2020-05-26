@@ -1,6 +1,14 @@
 # BERT model correct error character with mask feature
 
+
+### Requirements
+* pip安装依赖包
+```
+pip install transformers>=2.10.0
+```
+
 ## 使用说明
+
 
 1. 下载用中文文本fine-tuned3轮后的预训练BERT MLM模型（网盘链接: https://pan.baidu.com/s/14E7jtEgEtxWnwcggRBWeiw 提取码: dd9e），解压后放置于`data/bert_models`目录下。
 ```
@@ -59,7 +67,7 @@ Bert模型纠错效果评估如下：
 
 
 ### fine-tune
-使用[transformers](https://github.com/huggingface/transformers/blob/master/examples/run_lm_finetuning.py)(旧称pytorch-pretrained-BERT)的[examples/run_lm_finetuning](https://github.com/huggingface/transformers/blob/master/examples/run_lm_finetuning.py)处理。
+使用[transformers](https://github.com/huggingface/transformers)(旧称pytorch-pretrained-BERT)的[examples/language-modeling/run_language_modeling.py](https://github.com/huggingface/transformers/blob/master/examples/language-modeling/run_language_modeling.py)处理。
 - fine-tune模型
 ```bash
 
@@ -67,7 +75,8 @@ export CUDA_VISIBLE_DEVICES=0,1,2
 export TRAIN_FILE=people2014_cged_wiki.txt
 export TEST_FILE=people2014_cged_wiki.txt
 
-python run_lm_finetuning.py \
+
+python run_language_modeling.py \
     --output_dir=chinese_finetuned_lm \
     --model_type=bert \
     --model_name_or_path=bert-base-chinese \
@@ -76,9 +85,6 @@ python run_lm_finetuning.py \
     --do_eval \
     --eval_data_file=$TEST_FILE \
     --mlm
-    --num_train_epochs=3
-
-
 ```
 - 结果
 

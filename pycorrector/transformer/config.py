@@ -6,35 +6,45 @@ import os
 pwd_path = os.path.abspath(os.path.dirname(__file__))
 
 # Training data path.
-# chinese corpus
+# toy chinese corpus
 raw_train_paths = [
-    os.path.join(pwd_path, '../data/cn/CGED/CGED18_HSK_TrainingSet.xml'),
+    # os.path.join(pwd_path, '../data/cn/CGED/CGED18_HSK_TrainingSet.xml'),
     # os.path.join(pwd_path, '../data/cn/CGED/CGED17_HSK_TrainingSet.xml'),
     # os.path.join(pwd_path, '../data/cn/CGED/CGED16_HSK_TrainingSet.xml'),
-    # os.path.join(pwd_path, '../data/cn/CGED/sample_HSK_TrainingSet.xml'),
+    os.path.join(pwd_path, '../data/cn/CGED/sample_HSK_TrainingSet.xml'),
 ]
 
 output_dir = os.path.join(pwd_path, 'output')
-model_dir = os.path.join(pwd_path, 'output/model')
 # Training data path.
-src_train_path = os.path.join(output_dir, 'src-train.txt')
-tgt_train_path = os.path.join(output_dir, 'tgt-train.txt')
+trainpref = os.path.join(output_dir, 'train')
+train_src_path = os.path.join(output_dir, 'train.src')
+train_trg_path = os.path.join(output_dir, 'train.trg')
+
 # Validation data path.
-src_test_path = os.path.join(output_dir, 'src-test.txt')
-tgt_test_path = os.path.join(output_dir, 'tgt-test.txt')
+valpref = os.path.join(output_dir, 'valid')
+val_src_path = os.path.join(output_dir, 'valid.src')
+val_trg_path = os.path.join(output_dir, 'valid.trg')
 
-src_vocab_path = os.path.join(output_dir, 'src-vocab.txt')
-tgt_vocab_path = os.path.join(output_dir, 'tgt-vocab.txt')
+# Path of the fairseq data saved
+data_bin_dir = os.path.join(output_dir, 'bin')
 
-use_short_text = False
-maximum_length = 200
-train_steps = 1000
-save_every = 100
-report_every = 50
+test_path = os.path.join(output_dir, 'valid.src')
 
-batch_size = 32
-beam_size = 4
-gpu_id = 0
+vocab_max_size = 10000
+joined_dictionary = True
 
-if not os.path.exists(model_dir):
-    os.makedirs(model_dir)
+arch = 'transformer'
+batch_size = 64
+max_len = 400
+
+# (float, optional): temperature, where values >1.0 produce more uniform samples
+# and values <1.0 produce sharper samples (default: 1.0)
+temperature = 1.0
+
+# Path of the model saved
+save_model_dir = os.path.join(output_dir, 'models')
+best_model_path = os.path.join(save_model_dir, 'checkpoint_best.pt')
+
+predict_out_path = os.path.join(output_dir, 'valid.src.predict')
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
