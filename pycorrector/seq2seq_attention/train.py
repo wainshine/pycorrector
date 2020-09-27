@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author:XuMing（xuming624@qq.com)
+@author:XuMing(xuming624@qq.com)
 @description: 
 """
 import os
@@ -24,8 +24,17 @@ def tokenize(lang, maxlen):
     return seq, lang_word2id
 
 
-def train(train_path='', model_dir='', save_src_vocab_path='', save_trg_vocab_path='', embedding_dim=256,
-          batch_size=64, epochs=4, maxlen=400, hidden_dim=1024, gpu_id=0):
+def train(train_path='',
+          model_dir='',
+          save_src_vocab_path='',
+          save_trg_vocab_path='',
+          embedding_dim=256,
+          batch_size=64,
+          epochs=4,
+          maxlen=400,
+          hidden_dim=1024,
+          gpu_id=0
+          ):
     source_texts, target_texts = create_dataset(train_path, None)
     print(source_texts[-1])
     print(target_texts[-1])

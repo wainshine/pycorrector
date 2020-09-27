@@ -13,9 +13,7 @@
 
 **pycorrector**依据语言模型检测错别字位置，通过拼音音似特征、笔画五笔编辑距离特征及语言模型困惑度特征纠正错别字。
 
-## Demo
 
-https://www.borntowin.cn/product/corrector
 
 ## Question
 
@@ -31,7 +29,7 @@ https://www.borntowin.cn/product/corrector
 - 语法错误，如 想象难以-难以想象
 
 当然，针对不同业务场景，这些问题并不一定全部存在，比如输入法中需要处理前四种，搜索引擎需要处理所有类型，语音识别后文本纠错只需要处理前两种，
-其中'形似字错误'主要针对五笔或者笔画手写输入等。
+其中'形似字错误'主要针对五笔或者笔画手写输入等。本项目重点解决其中的谐音、混淆音、字词补全、形似字错误、中文拼音全拼、语法错误带来的纠错任务。
 
 
 ## Solution
@@ -390,7 +388,7 @@ input: 由我起开始做 output: 由我开始做
 
 
 PS：
-1. 如果训练数据太少（不足万条），深度模型拟合不足，会出现预测结果全为<unk>的情况，解决方法：增大训练样本集，使用下方提供的纠错熟语料(nlpcc2018+hsk，130万对句子)测试。
+1. 如果训练数据太少（不足万条），深度模型拟合不足，会出现预测结果全为`unk`的情况，解决方法：增大训练样本集，使用下方提供的纠错熟语料(nlpcc2018+hsk，130万对句子)测试。
 2. 深度模型训练耗时长，有GPU尽量用GPU，加速训练，节省时间。
 
 ## 自定义语言模型
@@ -407,13 +405,23 @@ PS：
     3）kenlm训练字粒度语言模型文件及其二进制文件people2014corpus_chars.arps/klm，
     4）kenlm词粒度语言模型文件及其二进制文件people2014corpus_words.arps/klm。
 
-人民日报2014版熟语料，网盘链接:https://pan.baidu.com/s/1971a5XLQsIpL0zL0zxuK2A  密码:uc11。尊重版权，传播请注明出处。
+尊重版权，传播请注明出处。
 
 
-## 中文纠错数据集
+## 数据集下载
+
+
+| 数据集 | 语料 | 下载链接 | 压缩包大小 |
+| :------- | :--------- | :---------: | :---------: |
+| **`人民日报2014版语料`** | 人民日报2014版 | [百度网盘（密码uc11）](https://pan.baidu.com/s/1971a5XLQsIpL0zL0zxuK2A) <br/> [飞书（密码cHcu）](https://l6pmn3b1eo.feishu.cn/file/boxcnKpildqIseq1D4IrLwlir7c?from=from_qr_code)| 383M |
+| **`NLPCC 2018 GEC官方数据集`** | NLPCC2018-GEC | [官方trainingdata](http://tcci.ccf.org.cn/conference/2018/dldoc/trainingdata02.tar.gz) | 114M |
+| **`NLPCC 2018+HSK熟语料`** | nlpcc2018+hsk+CGED | [百度网盘（密码m6fg）](https://pan.baidu.com/s/1BkDru60nQXaDVLRSr7ktfA) <br/> [飞书（密码gl9y）](https://l6pmn3b1eo.feishu.cn/file/boxcnudJgRs5GEMhZwe77YGTQfc?from=from_qr_code) | 215M |
+| **`NLPCC 2018+HSK原始语料`** | HSK+Lang8 | [百度网盘（密码n31j）](https://pan.baidu.com/s/1DaOX89uL1JRaZclfrV9C0g) <br/> [飞书（密码Q9LH）](https://l6pmn3b1eo.feishu.cn/file/boxcntebW3NI6OAaqzDUXlZHoDb?from=from_qr_code) | 81M |
+
+
 1. NLPCC 2018 GEC官方数据集[NLPCC2018-GEC](http://tcci.ccf.org.cn/conference/2018/taskdata.php)，
 训练集[trainingdata](http://tcci.ccf.org.cn/conference/2018/dldoc/trainingdata02.tar.gz)[解压后114.5MB]，该数据格式是原始文本，未做切词处理。
-2. 汉语水平考试（HSK）和lang8原始平行语料[HSK+Lang8](https://pan.baidu.com/s/18JXm1KGmRu3Pe45jt2sYBQ)[190MB]，该数据集已经切词，可用作数据扩增
+2. 汉语水平考试（HSK）和lang8原始平行语料[HSK+Lang8][百度网盘（密码n31j）](https://pan.baidu.com/s/1DaOX89uL1JRaZclfrV9C0g)，该数据集已经切词，可用作数据扩增
 3. 以上语料，再加上CGED16、CGED17、CGED18的数据，经过以字切分，繁体转简体，打乱数据顺序的预处理后，生成用于纠错的熟语料(nlpcc2018+hsk)，网盘链接:https://pan.baidu.com/s/1BkDru60nQXaDVLRSr7ktfA  密码:m6fg [130万对句子，215MB]
 
 ## 贡献及优化点
@@ -431,9 +439,11 @@ PS：
 
 ## 讨论群
 
-微信交流群，感兴趣的同学可以加入沟通NLP文本纠错相关技术，issues上回复不及时也可以在群里面提问。
+微信交流群，感兴趣的同学可以加入沟通NLP文本纠错相关技术，issues上回复不及时也可以在群里面提问。微信群，扫码加入。
 
-PS: 由于微信群满100人了，扫码加不了。扫我微信二维码，或者搜索我*微信号：xuming624, 备注：个人名称-NLP纠错* 进群。
+<img src="./docs/git_image/wechat_group2.jpeg" width="200" />
+
+如果群满了，可以加我*微信号：xuming624, 备注：个人名称-NLP纠错* 进群。
 
 <img src="./docs/git_image/wechat.jpeg" width="200" />
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Author: XuMing <xuming624@qq.com>
+# Author: XuMing(xuming624@qq.com)
 # Brief: error word detector
 
 import codecs
@@ -15,9 +15,9 @@ from pycorrector.utils.logger import logger
 from pycorrector.utils.text_utils import uniform, is_alphabet_string, convert_to_unicode, is_chinese_string
 from pycorrector.utils.tokenizer import Tokenizer
 
-# \u4E00-\u9FD5a-zA-Z0-9+#&\._ : All non-space characters. Will be handled with re_han
+# \u4E00-\u9FA5a-zA-Z0-9+#&\._ : All non-space characters. Will be handled with re_han
 # \r\n|\s : whitespace characters. Will not be handled.
-re_han = re.compile("([\u4E00-\u9FD5a-zA-Z0-9+#&]+)", re.U)
+re_han = re.compile("([\u4E00-\u9F5a-zA-Z0-9+#&]+)", re.U)
 re_skip = re.compile("(\r\n\\s)", re.U)
 
 
@@ -78,7 +78,7 @@ class Detector(object):
             url = self.pre_trained_language_models.get(filename)
             get_file(
                 filename, url, extract=True,
-                cache_dir=config.USER_DIR,
+                cache_dir='~',
                 cache_subdir=config.USER_DATA_DIR,
                 verbose=1
             )

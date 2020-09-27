@@ -7,13 +7,15 @@
 * 多层级的双向lstm模型，文本语义表征能力更强
 * 简单MLP预测未知词
 
+![framework](../../docs/git_image/framework_context.jpeg)
+图片来源:https://github.com/SenticNet/context2vec
+
 ## Usage
 
 ### Requirements
 * pip安装依赖包
 ```
-torch>=1.3.1
-torchtext
+pip install torch>=1.3.1 torchtext==0.3.0
 ```
 
 ### Preprocess

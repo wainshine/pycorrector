@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Author: XuMing <xuming624@qq.com>
+# Author: XuMing(xuming624@qq.com)
 # Brief: 
 from __future__ import print_function
 
@@ -33,7 +33,7 @@ setup(
     url='https://github.com/shibing624/pycorrector',
     license="Apache 2.0",
     zip_safe=False,
-    python_requires='>=3.6',
+    python_requires='>=3.6.0',
     classifiers=[
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
@@ -42,9 +42,8 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
-        'Topic :: Text Processing',
-        'Topic :: Text Processing :: Indexing',
         'Topic :: Text Processing :: Linguistic',
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     platforms=["Windows", "Linux", "Solaris", "Mac OS-X", "Unix"],
     keywords='NLP,correction,Chinese error corrector,corrector',
@@ -53,5 +52,5 @@ setup(
     package_dir={'pycorrector': 'pycorrector'},
     package_data={'pycorrector': ['*.*', 'LICENSE', '../LICENSE', 'README.*', '../*.txt', 'data/*', 'data/en/big.txt',
                                   'utils/*.', 'bert/*', 'deep_context/*', 'conv_seq2seq/*', 'seq2seq_attention/*',
-                                  'transformer/*']}
+                                  'transformer/*', 'electra/*']}
 )
